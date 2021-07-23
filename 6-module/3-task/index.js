@@ -121,8 +121,7 @@ export default class Carousel {
     this._carouselSlides = document.createElement('div');
     this._carouselSlides.classList.add('carousel__inner');
     this._carouselSlides.append(...this._slides.map(slide => {
-      const product = new CarouselSlide(slide);
-      return product.elem;
+      return new CarouselSlide(slide).elem;
     }));
 
     carousel.append(this._carouselSlides);

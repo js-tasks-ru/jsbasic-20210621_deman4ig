@@ -62,21 +62,20 @@ export default class UserTable {
     this._table = document.createElement('table');
     this._table.addEventListener('click', this._onCloseBtnClick);
     this._table.append(this._thead, this._tbody);
-
-    return this._table;
   }
 
   _onCloseBtnClick(event) {
     let target = event.target;
+    let closestTr = target.closest('tr');
 
     if (target.tagName !== 'BUTTON') {
       return;
     }
-    if (!target.closest('tr')) {
+    if (!closestTr) {
       return;
     }
 
-    target.closest('tr').remove();
+    closestTr.remove();
   }
 
   get elem() {
