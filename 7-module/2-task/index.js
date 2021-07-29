@@ -40,6 +40,8 @@ export default class Modal {
     if (event.code === 'Escape') {
       this.close();
     }
+
+    document.body.removeEventListener('keydown', this._closeOnEsc);
   }
 
   setTitle(title) {
