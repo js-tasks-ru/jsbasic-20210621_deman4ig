@@ -21,10 +21,10 @@ function generateRibbonItemHTML(item) {
 }
 
 export default class RibbonMenu {
-  _ribbon;
-  _leftArrow;
-  _rightArrow;
-  _ribbonInner;
+  _ribbon = null;
+  _leftArrow = null;
+  _rightArrow = null;
+  _ribbonInner = null;
 
   constructor(categories) {
     this.categories = categories;
