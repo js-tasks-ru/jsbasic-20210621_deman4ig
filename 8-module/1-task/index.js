@@ -40,7 +40,8 @@ export default class CartIcon {
 
   updatePosition() {
     const cart = document.querySelector('.cart-icon');
-    const container = document.querySelector('.container');
+    const container = document.querySelector('.container').firstElementChild;
+
     const isMobile = () => {
       return document.documentElement.clientWidth < 767;
     };
