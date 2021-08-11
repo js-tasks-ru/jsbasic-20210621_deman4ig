@@ -1,3 +1,5 @@
+@import '../1-task/product-grid.css';
+
 .products-grid .products-grid__inner {
   display: grid;
   grid-gap: 20px;
@@ -15,5 +17,3 @@
     background-color: var(--color-black-light);
   }
 }
-
-@import '../product-grid-skeleton/index.css';
