@@ -33,42 +33,53 @@ export default class CartIcon {
     }
   }
 
+  updatePosition() {
+
+    if (!this.elem.offsetHeight) {return;} // not visible
+
+    if (!this.initialTopCoord) {
+      this.initialTopCoord = this.elem.getBoundingClientRect().top + window.pageYOffset;
+    }
+
+    if (document.documentElement.clientWidth <= 767) {
+      // mobile: cart is always fixed
+      this.resetPosition();
+      return;
+    }
+
+    let isHeaderCartScrolled = window.pageYOffset > this.initialTopCoord;
+
+    if (isHeaderCartScrolled) {
+      this.fixPosition();
+    } else {
+      this.resetPosition();
+    }
+  }
+
+  fixPosition() {
+    Object.assign(this.elem.style, {
+      position: 'fixed',
+      top: '50px',
+      zIndex: 1e3,
+      left: Math.min(
+        // справа от содержимого (определяем по первому контейнеру в нашей вёрстке)
+        document.querySelector('.container').getBoundingClientRect().right + 20,
+        document.documentElement.clientWidth - this.elem.offsetWidth - 10
+      ) + 'px'
+    });
+  }
+
+  resetPosition() {
+    Object.assign(this.elem.style, {
+      position: '',
+      top: '',
+      left: '',
+      zIndex: ''
+    });
+  }
+
   addEventListeners() {
     document.addEventListener('scroll', () => this.updatePosition());
     window.addEventListener('resize', () => this.updatePosition());
-  }
-
-  updatePosition() {
-    const cart = document.querySelector('.cart-icon');
-    const container = document.querySelector('.container').firstElementChild;
-
-    const isMobile = () => {
-      return document.documentElement.clientWidth < 767;
-    };
-
-    let cartPosition = `${Math.min(
-      container.getBoundingClientRect().right + 20,
-      document.documentElement.clientWidth - cart.offsetWidth - 10,
-    )}px`;
-
-    if (!cart) {
-      return false;
-    }
-
-    if (pageYOffset > 50 && !isMobile()) {
-      Object.assign(cart.style, {
-        zIndex: 100,
-        position: 'fixed',
-        left: cartPosition,
-        right: '10px',
-      });
-    } else {
-      Object.assign(cart.style, {
-        position: '',
-        left: '',
-        zIndex: '',
-        right: '',
-      });
-    }
   }
 }
