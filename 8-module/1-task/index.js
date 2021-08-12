@@ -35,47 +35,36 @@ export default class CartIcon {
 
   updatePosition() {
 
-    if (!this.elem.offsetHeight) {return;} // not visible
-
-    if (!this.initialTopCoord) {
-      this.initialTopCoord = this.elem.getBoundingClientRect().top + window.pageYOffset;
-    }
-
-    if (document.documentElement.clientWidth <= 767) {
-      // mobile: cart is always fixed
-      this.resetPosition();
+    if (!this.elem.offsetHeight) {
       return;
     }
 
-    let isHeaderCartScrolled = window.pageYOffset > this.initialTopCoord;
+    const container = document.querySelector('.container').firstElementChild;
 
-    if (isHeaderCartScrolled) {
-      this.fixPosition();
+    const isMobile = () => {
+      return document.documentElement.clientWidth < 767;
+    };
+
+    let cartPosition = `${Math.min(
+      container.getBoundingClientRect().right + 20,
+      document.documentElement.clientWidth - this.elem.offsetWidth - 10,
+    )}px`;
+
+    if (pageYOffset > 50 && !isMobile()) {
+      Object.assign(this.elem.style, {
+        zIndex: 100,
+        position: 'fixed',
+        left: cartPosition,
+        right: '10px',
+      });
     } else {
-      this.resetPosition();
+      Object.assign(this.elem.style, {
+        position: '',
+        left: '',
+        zIndex: '',
+        right: '',
+      });
     }
-  }
-
-  fixPosition() {
-    Object.assign(this.elem.style, {
-      position: 'fixed',
-      top: '50px',
-      zIndex: 1e3,
-      left: Math.min(
-        // справа от содержимого (определяем по первому контейнеру в нашей вёрстке)
-        document.querySelector('.container').getBoundingClientRect().right + 20,
-        document.documentElement.clientWidth - this.elem.offsetWidth - 10
-      ) + 'px'
-    });
-  }
-
-  resetPosition() {
-    Object.assign(this.elem.style, {
-      position: '',
-      top: '',
-      left: '',
-      zIndex: ''
-    });
   }
 
   addEventListeners() {
